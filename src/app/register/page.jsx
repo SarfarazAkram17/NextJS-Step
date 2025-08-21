@@ -1,39 +1,56 @@
-"use client"
-import { useState } from "react"
-import { signIn } from "next-auth/react"
+"use client";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
+import { registerUser } from "../actions/registerUser";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError("")
-    setLoading(true)
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    const name = e.target.name.value
-    const photo = e.target.photo.value
-    const email = e.target.email.value
-    const password = e.target.password.value
-    const confirm = e.target.confirm.value
+    const form = e.target;
+    const name = form.name.value;
+    const photo = form.photo.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirm = form.confirm.value;
 
     if (password !== confirm) {
-      setError("Passwords do not match")
-      setLoading(false)
-      return
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
     }
 
-    // TODO: Send to your backend to create the user
-    console.log({ name, photo, email, password })
-
-    setLoading(false)
-    alert("Registration submitted (hook this up to your backend)")
-  }
+    const res = await registerUser({ name, photo, email, password });
+    if (res) {
+      if (res?.insertedId) {
+        toast.success("You registered successfully. Now login");
+        setLoading(false);
+        router.push("/login");
+        router.refresh();
+      }
+      toast.info(res.message);
+      setLoading(false);
+    } else {
+      toast.error("Registration failed");
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex justify-center mt-10">
-      <div className="card w-full max-w-md bg-base-100 shadow-xl p-6">
-        <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
+      <div className="w-full max-w-md bg-base-100 shadow-xl p-6">
+        <h2 className="text-2xl font-bold text-center mb-4">
+          Register on NextMart
+        </h2>
 
         {error && (
           <div className="alert alert-error mb-4 py-2 px-3">{error}</div>
@@ -91,8 +108,8 @@ export default function Register() {
         <div className="divider">OR</div>
 
         <button
-          onClick={() => signIn("google", { callbackUrl: "/" })}
-          className="btn btn-outline w-full"
+          onClick={() => signIn("google", { callbackUrl: "/products" })}
+          className="btn btn-outline w-full mb-4"
         >
           <svg
             className="w-5 h-5 mr-2"
@@ -104,7 +121,16 @@ export default function Register() {
           </svg>
           Continue with Google
         </button>
+        <p className="text-center">
+          Don't Have an account?{" "}
+          <Link
+            href="/login"
+            className="text-primary font-bold hover:underline"
+          >
+            Login
+          </Link>
+        </p>
       </div>
     </div>
-  )
+  );
 }

@@ -1,14 +1,17 @@
 "use client";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { status, data: session } = useSession();
 
   const links = [
     { href: "/", label: "Home" },
     { href: "/products", label: "Products" },
-  ];
+    status === "authenticated" && { href: "/dashboard/add-product", label: "Add Product" }
+  ].filter(Boolean);
 
   const navlinks = (
     <>
@@ -29,8 +32,8 @@ const Navbar = () => {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
-      <div className="navbar bg-base-100 shadow-sm">
+    <div className="max-w-7xl mx-auto">
+      <div className="navbar bg-base-100 px-4 shadow-sm">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -51,7 +54,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm text-center dropdown-content bg-base-100 rounded-box z-1 mt-3 w-32 p-2 shadow"
             >
               {navlinks}
             </ul>
@@ -64,12 +67,32 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navlinks}</ul>
         </div>
         <div className="navbar-end flex items-center gap-2">
-          <Link href="/login">
-            <button className="btn btn-primary">Login</button>
-          </Link>
-          <Link href="/register">
-            <button className="btn btn-primary btn-outline">Register</button>
-          </Link>
+          {status === "authenticated" ? (
+            <>
+              <img
+                src={session.user.image}
+                alt="Profile"
+                className="rounded-full object-cover w-12 h-12"
+              />
+              <button
+                onClick={() => signOut()}
+                className="btn font-bold btn-error btn-sm"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <button className="btn btn-primary">Login</button>
+              </Link>
+              <Link href="/register">
+                <button className="btn btn-primary btn-outline">
+                  Register
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>
