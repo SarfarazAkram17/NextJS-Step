@@ -1,11 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Banner() {
   return (
-    <div className="hero h-[70vh] bg-base-200">
+    <div className="hero min-h-[70vh] bg-base-200">
       <div className="hero-content flex-col max-w-7xl mx-auto px-6 lg:flex-row-reverse">
         <Image
-          src="https://picsum.photos/500/300"
+          src="https://i.ibb.co.com/3yHF1gZf/Chat-GPT-Image-Aug-22-2025-12-36-25-PM.png"
           height={300}
           width={500}
           className="rounded-xl"
@@ -17,7 +18,7 @@ export default function Banner() {
             Discover amazing products at the best prices. Fast delivery, trusted
             service, and quality you can rely on.
           </p>
-          <button className="btn btn-primary">Shop Now</button>
+          <Link href='/products' className="btn btn-primary">Shop Now</Link>
         </div>
       </div>
     </div>

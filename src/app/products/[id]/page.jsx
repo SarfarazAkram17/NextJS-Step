@@ -10,7 +10,7 @@ export default function ProductDetails() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/products/${id}`);
+        const res = await fetch(`https://nextmart-omega.vercel.app/api/products/${id}`);
         const data = await res.json();
         setProduct(data);
       } catch (err) {

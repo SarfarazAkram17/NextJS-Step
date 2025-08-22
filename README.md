@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛒 NextMart
 
-## Getting Started
+A simple product application built with **Next.js 15 (App Router)** and **NextAuth.js**.  
+The app includes public and protected pages, basic authentication, and product management features.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Core
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Landing Page (/)**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+  - Includes Navbar, Hero, Featured Products, and Footer
+  - Links to Login and Products
+  - Publicly accessible
 
-## Learn More
+- **Login Page (/login)**
 
-To learn more about Next.js, take a look at the following resources:
+  - Authentication with NextAuth.js (Google / Credentials)
+  - Redirects to `/products` after login
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Product List Page (/products)**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  - Displays products fetched database
+  - Shows product name, description, price, and "View Details" button
+  - Publicly accessible
 
-## Deploy on Vercel
+- **Product Details Page (/products/[id])**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  - Shows full details of a product
+  - Publicly accessible
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Protected Page: Add Product (/dashboard/add-product)**
+  - Requires login
+  - Form to add a new product and save it in the database
+  - Redirects unauthenticated users to `/login`
+
+## 🛠️ Tech Stack
+
+- **Next.js 15** (App Router)
+- **NextAuth.js** for authentication
+- **Tailwind CSS** for styling
+- **Route Handlers (/api)** for product CRUD
+
+---
+
+## 📂 Routes Summary
+
+| Route                    | Description                                   | Access                     |
+| ------------------------ | --------------------------------------------- | -------------------------- |
+| `/`                      | Landing page (Navbar, Hero, Products, Footer) | Public                     |
+| `/login`                 | Login with NextAuth                           | Public                     |
+| `/products`              | Product list page                             | Public                     |
+| `/products/[id]`         | Product details page                          | Public                     |
+| `/dashboard/add-product` | Add product form                              | Protected (login required) |
+| `/api/products`          | API route for product CRUD                    | Internal                   |
+
+---
+
+## ⚙️ Setup & Installation
+
+1. **Clone the repo**
+   git clone https://github.com/SarfarazAkram17/NextJS-Step.git
+   cd NextJS-Step

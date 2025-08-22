@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function ProductsPage() {
+export default function FeaturedProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("https://nextmart-omega.vercel.app/api/products");
+        const res = await fetch("https://nextmart-omega.vercel.app/api/random-products");
         const data = await res.json();
         setProducts(data);
       } catch (err) {
@@ -35,8 +35,8 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
-      <h1 className="text-3xl font-bold mb-10 text-center">Our Products</h1>
+    <div className="max-w-7xl mx-auto px-4 mt-8">
+      <h1 className="text-3xl font-bold mb-10 text-center">Featured Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product._id} className="card bg-base-100 shadow-md">
